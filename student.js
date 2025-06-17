@@ -26,7 +26,7 @@ let getRandomUser = ()=> {
 
 
 
-
+//HOME ROUTE
 app.get('/',(req,res)=>{
   let q= `SELECT count(*) FROM student`;
   try {
@@ -35,6 +35,21 @@ app.get('/',(req,res)=>{
     let count= result[0]["count(*)"];
     console.log();
     res.render('home.ejs',{count})
+  })
+} catch (err) {
+  console.log(err);
+  
+}
+})
+
+//SHOW USERS ROUTE
+app.get("/user",(req,res)=>{
+  let q= `SELECT * FROM student`;
+  try {
+  connection.query(q, (err,users)=>{
+    if(err) throw err;
+    //console.log(result);
+    res.render('user.ejs',{users});
   })
 } catch (err) {
   console.log(err);
