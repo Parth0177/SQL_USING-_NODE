@@ -1,5 +1,10 @@
 const mysql = require('mysql2');
 const {faker} = require('@faker-js/faker');
+const express= require('express');
+const app= express();
+const PORT=5500;
+
+
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -19,22 +24,29 @@ let getRandomUser = ()=> {
 
 
 
-let q= "INSERT INTO student (id , username, email , password) VALUES ?"
 
-let data=[];
-for (let i = 1; i <=100; i++) {
-  data.push(getRandomUser()) // 100 FAKE USERS DATA;
-}
-
-try {
-  connection.query(q, [data], (err,result)=>{
+app.get('/',(req,res)=>{
+  let q= `SELECT count(*) FROM student`;
+  try {
+  connection.query(q, (err,result)=>{
     if(err) throw err;
-    console.log(result);
-    
+    console.log(result[0]["count(*)"]);
+    res.send(result[0]["count(*)"]);
   })
 } catch (err) {
   console.log(err);
   
 }
+})
 
-connection.end();
+
+
+
+
+
+
+app.listen(PORT,(req,res)=>{
+  console.log("app is running on port 5500");
+  
+})
+
