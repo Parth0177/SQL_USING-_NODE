@@ -8,8 +8,6 @@ const connection = mysql.createConnection({
     password:'Parth._017'
 })
 
-connection.end();
-
 let getRandomUser = ()=> {
   return [
     faker.string.uuid(),
@@ -18,3 +16,25 @@ let getRandomUser = ()=> {
     faker.internet.password(),
   ];
 }
+
+
+
+let q= "INSERT INTO student (id , username, email , password) VALUES ?"
+
+let data=[];
+for (let i = 1; i <=100; i++) {
+  data.push(getRandomUser()) // 100 FAKE USERS DATA;
+}
+
+try {
+  connection.query(q, [data], (err,result)=>{
+    if(err) throw err;
+    console.log(result);
+    
+  })
+} catch (err) {
+  console.log(err);
+  
+}
+
+connection.end();
