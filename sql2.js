@@ -7,10 +7,13 @@ const connection = mysql.createConnection({
     password:'Parth._017'
   });
 
-try{connection.query("SHOW TABLES" , (err,result)=>{
+  //INSERTING NEW DATA
+let q= "INSERT INTO user (id,username,email,password) VALUES (?,?,?,?)";
+let user= ["256","1233_newUser", "abc2@gmail.com", "abcd"];
+
+try{connection.query(q ,user , (err,result)=>{
   if (err) throw err;
   console.log(result);
-  
 })
 }catch(err){
   console.log(err);
