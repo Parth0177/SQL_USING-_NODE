@@ -96,6 +96,7 @@ app.patch('/user/:id', (req, res) => {
   });
 });
 
+//ADD NEW USER
 app.get('/user/new', (req, res) => {
   res.render('new.ejs');
 });
@@ -114,6 +115,8 @@ app.post('/user', (req, res) => {
   });
 });
 
+
+//DELETE THE USER
 app.get('/user/:id/delete', (req, res) => {
   const { id } = req.params;
   const q = `SELECT * FROM student WHERE id = ?`;
