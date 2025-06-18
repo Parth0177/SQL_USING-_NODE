@@ -20,7 +20,7 @@
 </head>
 <body>
   <h2>You are about to edit the user: <%= user.email %> </h2>
-  <form action="/user/<%= user.id %>?_method=PATCH" method="GET">
+  <form action="/user/<%= user.id %>?_method=PATCH" method="POST">
     <textarea name="username"><%= user.username %></textarea>
     <input type="password" name="password" placeholder="Enter your password" required>
     <button>Edit</button>
