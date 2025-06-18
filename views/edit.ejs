@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Username</title>
+  <style>
+    form{
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>You are about to edit the user: <%= user.email %> </h2>
+  <form action="/user/<%= user.id %>" method="GET">
+    <textarea name="username"><%= user.username %></textarea>
+    <input type="password" name="password" placeholder="Enter your password" required>
+    <button>Edit</button>
+  </form>
+</body>
+</html>
