@@ -96,6 +96,73 @@ app.patch('/user/:id', (req, res) => {
   });
 });
 
+app.get('/user/new', (req, res) => {
+  res.render('new.ejs');
+});
+
+app.post('/user', (req, res) => {
+  const { username, email, password } = req.body;
+  const id = faker.string.uuid();
+
+  const q = `INSERT INTO student (id, username, email, password) VALUES (?, ?, ?, ?)`;
+  connection.query(q, [id, username, email, password], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Database Error');
+    }
+    res.redirect('/user');
+  });
+});
+
+app.get('/user/:id/delete', (req, res) => {
+  const { id } = req.params;
+  const q = `SELECT * FROM student WHERE id = ?`;
+  connection.query(q, [id], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Database Error');
+    }
+    if (result.length === 0) {
+      return res.status(404).send('User not found');
+    }
+    const user = result[0];
+    res.render('delete.ejs', { user });
+  });
+});
+
+app.delete('/user/:id', (req, res) => {
+  const { id } = req.params;
+  const { password: formPass } = req.body;
+
+  const q = `SELECT * FROM student WHERE id = ?`;
+  connection.query(q, [id], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Database error');
+    }
+
+    const user = result[0];
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    if (formPass !== user.password) {
+      return res.send('Wrong Password! Cannot delete user.');
+    }
+
+    const deleteQuery = `DELETE FROM student WHERE id = ?`;
+    connection.query(deleteQuery, [id], (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send('Delete failed');
+      }
+      res.redirect('/user');
+    });
+  });
+});
+
+
+
 // Start Server
 app.listen(PORT, () => {
   console.log(`App is running on port ${PORT}`);
